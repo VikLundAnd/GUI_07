@@ -1,0 +1,104 @@
+﻿<Window x:Class="GUI_07.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI_07"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Header="New" Command="{Binding New}"/>
+                    <MenuItem Header="Open" Command="{Binding Open}"/>
+                    <MenuItem Header="Save" Command="{Binding Save}"/>
+                    <MenuItem Header="Save as" Command="{Binding SaveAs}"/>
+                    <MenuItem Header="Exit" Command="{Binding Exit}"/>
+                </MenuItem>
+                <MenuItem Header="Agents">
+                    <MenuItem Header="Previous" Command="{Binding Backward}"/>
+                    <MenuItem Header="Next" Command="{Binding Forward}"/>
+                    <MenuItem Header="Add new" Command="{Binding AddNewAgent}"/>
+                    <MenuItem Header="Delete" Command="{Binding DeleteNewAgent}"/>
+                </MenuItem>
+            </Menu>
+            
+
+        <ToolBar DockPanel.Dock="Top" FontSize="20">
+            <Button Content="&lt;" Command="{Binding Backward}"/>
+            <Button Content="&gt;" Command="{Binding Forward}"/>
+            <Button Content="+" Command="{Binding AddNewAgent}"/>
+            <Button Content="-" Command="{Binding DeleteNewAgent}"/>
+        </ToolBar>
+
+
+        <StatusBar DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StatusBarItem HorizontalAlignment="Left">
+                <Label Content="{Binding listAgent.Count}" ContentStringFormat="Agents Count: {0}"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Label Content="{Binding Filename, TargetNullValue='undefined path'}" ContentStringFormat="File path: {0}"/>
+            </StatusBarItem>
+           
+        </StatusBar>
+
+
+        <Grid Grid.Row="1" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="225" Width="225"/>
+                <ColumnDefinition MinWidth="90"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="200" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" VerticalAlignment="Top" Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition MinHeight="60"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="ID" VerticalAlignment="Stretch"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="CodeName"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="Specialty"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="Assignment"/>
+
+                <TextBox Grid.Column="1" Text="{Binding currentAgent.ID}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" x:Name="name_textbox" Text="{Binding currentAgent.CodeName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" HorizontalAlignment="Left" Width="138" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Text="{Binding currentAgent.Speciality}" Grid.Row="2" HorizontalAlignment="Left" Width="138" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Text="{Binding currentAgent.Assignment}" Grid.Row="3" HorizontalAlignment="Left" Width="138" VerticalAlignment="Stretch" Height="50" Margin="0,4,0,4"/>
+                <Grid Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="forward" Command="{Binding Backward}" Content="&lt;&lt;" Grid.Column="0" Width="70" VerticalAlignment="Center" Margin="0,4,4,4" />
+                    <Button x:Name="backward" Command="{Binding Forward}" Content="&gt;&gt;" Grid.Column="1" Width="60" VerticalAlignment="Center" Margin="4,4,0,4"/>
+                </Grid>
+                <Button Grid.Column="1" Command="{Binding AddNewAgent}" x:Name="Btn_add_new" Grid.Row="5" Content="Add new" Width="70" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,4,0,4"/>
+
+            </Grid>
+
+            <ListBox x:Name="Listbox1" Grid.Column="1" Margin="4,4,4,4" ItemsSource="{Binding listAgent}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding currentAgent}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding CodeName}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        
+    </DockPanel>
+
+</Window>
